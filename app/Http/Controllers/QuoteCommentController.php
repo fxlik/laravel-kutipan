@@ -23,7 +23,7 @@ class QuoteCommentController extends Controller
 
         $quote = Quote::findOrFail($id);
 
-        $quotes = QuoteComment::create([
+        $quotesComment = QuoteComment::create([
             'subject' => $request->subject,
             'quote_id' => $id,
             'user_id' => Auth::user()->id
@@ -34,52 +34,35 @@ class QuoteCommentController extends Controller
     }
 
     
-    public function show($slug)
-    {
-        $quote = Quote::where('slug', $slug)->first();
-        
-        if(empty($quote))
-            abort(404);
-        
-        return view('quotes.single', compact('quote'));
-    }
-
-    public function random()
-    {
-        $quote = Quote::inRandomOrder()->first();
-        return view('quotes.single', compact('quote'));
-    }
-
-    
     public function edit($id)
     {
-        $quote = Quote::findOrFail($id);
+
+        $comment = QuoteComment::findOrFail($id);
         
-        return view('quotes.edit', compact('quote'));
+        return view('quote-comments.edit', compact('comment'));
     }
 
    
     public function update(Request $request, $id)
     {
-        $quote = Quote::findOrFail($id);
-        if($quote->isOwner())
-            $quote->update([
-                'title' => $request->title,
+        $comment = QuoteComment::findOrFail($id);
+        if($comment->isOwner())
+            $comment->update([
                 'subject' => $request->subject,
             ]);
         else abort(403);
 
-        return redirect('quotes')->with('msg', 'Quote berhasil di-update');
+        return redirect('/quotes/'. $comment->quote->slug)->with('msg', 'Komentar berhasil di-update');
     }
 
     
     public function destroy($id)
     {
-        $quote = Quote::findOrFail($id);
-        if($quote->isOwner())
-            $quote->delete();
+        $comment = QuoteComment::findOrFail($id);
+        if($comment->isOwner())
+            $comment->delete();
         else abort(403);
 
-        return redirect('quotes')->with('msg', 'Quote berhasil dihapus');
+        return redirect('/quotes/'. $comment->quote->slug)->with('msg', 'Komentar berhasil dihapus');
     }
 }

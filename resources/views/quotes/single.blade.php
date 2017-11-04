@@ -1,6 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
+
+    @if (session('msg'))
+        <div class="alert alert-success">
+            <p>{{session('msg')}}</p>
+        </div>
+    @endif
+
 <div class="container">
     <div class="jumbotron">
         <h2>{{$quote->title}}</h2>
@@ -23,6 +30,18 @@
         <h4>{{$comment->subject}}</h4>
         <p>ditulis oleh: <a href="/profile/{{$comment->user->id}}">{{$comment->user->name}}</a> pada: {{$comment->created_at}} </p>
         <hr>
+
+        @if ($comment->isOwner())
+                <p><a href="/quotes-comment/{{$comment->id}}/edit" class="btn btn-warning btn-xs">Edit</a></p>
+                <form method="POST" action="/quotes-comment/{{$comment->id}}">
+                        {{ csrf_field() }}
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit" class="btn btn-danger btn-xs">Hapus</button>
+                </form>
+        @endif
+
+        <hr>
+
     @endforeach
  
 

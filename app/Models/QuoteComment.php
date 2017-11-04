@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Auth;
 use Illuminate\Database\Eloquent\Model;
 
 class QuoteComment extends Model
@@ -19,5 +20,12 @@ class QuoteComment extends Model
     public function quote()
     {
     	return $this->belongsTo('App\Models\Quote');
+    }
+
+    public function isOwner() {
+        if(Auth::guest())
+            return false;
+
+        return Auth::user()->id == $this->user->id;
     }
 }
