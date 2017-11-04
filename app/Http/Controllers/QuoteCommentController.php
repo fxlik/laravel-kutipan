@@ -63,6 +63,7 @@ class QuoteCommentController extends Controller
             $comment->delete();
         else abort(403);
 
+        // test
         return redirect('/quotes/'. $comment->quote->slug)->with('msg', 'Komentar berhasil dihapus');
     }
 }
