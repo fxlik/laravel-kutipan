@@ -69,7 +69,7 @@ class QuoteController extends Controller
      */
     public function show($slug)
     {
-        $quote = Quote::where('slug', $slug)->first();
+        $quote = Quote::with('comments.user')->where('slug', $slug)->first();
         
         if(empty($quote))
             abort(404);

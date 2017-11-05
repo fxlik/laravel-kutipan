@@ -27,20 +27,27 @@
     </div>
 
     @foreach($quote->comments as $comment)
-        <h4>{{$comment->subject}}</h4>
-        <p>ditulis oleh: <a href="/profile/{{$comment->user->id}}">{{$comment->user->name}}</a> pada: {{$comment->created_at}} </p>
-        <hr>
+        <div class="row">
+            <div class="col-md-4">
+                <h4>{{$comment->subject}}</h4>
+                <p>ditulis oleh: <a href="/profile/{{$comment->user->id}}">{{$comment->user->name}}</a> pada: {{$comment->created_at}} </p>
+            </div>
 
-        @if ($comment->isOwner())
-                <p><a href="/quotes-comment/{{$comment->id}}/edit" class="btn btn-warning btn-xs">Edit</a></p>
-                <form method="POST" action="/quotes-comment/{{$comment->id}}">
-                        {{ csrf_field() }}
-                    <input type="hidden" name="_method" value="DELETE">
-                    <button type="submit" class="btn btn-danger btn-xs">Hapus</button>
-                </form>
-        @endif
+            @if ($comment->isOwner())\
+                <div class="col-md-2">
+                    <a href="/quotes-comment/{{$comment->id}}/edit" class="btn btn-warning btn-xs">Edit</a>
+                </div>
 
-        <hr>
+                <div class="col-md-2">
+                    <form method="POST" action="/quotes-comment/{{$comment->id}}">
+                            {{ csrf_field() }}
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="submit" class="btn btn-danger btn-xs">Hapus</button>
+                    </form>
+                </div>
+            @endif
+            <hr>
+        </div>
 
     @endforeach
  
