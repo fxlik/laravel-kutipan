@@ -1,3 +1,5 @@
 ## Laravel Kutipan
-Belajar laravel dari Sekolah Koding
-##Lab Yah
+Laravel kutipan Sekolah Koding
+-autentikasi
+-CRUD Kutipan
+-tag
