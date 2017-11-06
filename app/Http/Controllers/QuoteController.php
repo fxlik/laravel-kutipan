@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 //use
 use Auth;
+use App\Models\Tag;
 use App\Models\User;
 use App\Models\Quote;
 
@@ -18,7 +19,7 @@ class QuoteController extends Controller
      */
     public function index()
     {
-        $quotes = Quote::all();
+        $quotes = Quote::with('tags')->get();
         return view('quotes.index', compact('quotes'));
     }
 
@@ -29,7 +30,8 @@ class QuoteController extends Controller
      */
     public function create()
     {
-        return view('quotes.create');
+        $tags = Tag::all();
+        return view('quotes.create', compact('tags'));
     }
 
     /**
@@ -45,17 +47,24 @@ class QuoteController extends Controller
             'subject' => 'required|min:5',
         ]);
 
+        $request->tags = array_diff($request->tags, [0]); //menghapus array 0, untuk validasi
+        if (empty($request->tags))
+            return redirect('quotes/create')->withInput($request->input())->with('tag_error', 'tag ngak boleh kosong');
+
         $slug = str_slug($request->title, '-');
 
         if(Quote::where('slug', $slug)->first() !=null)
             $slug = $slug . '-' .time();
 
-        $quotes = Quote::create([
+        $quote = Quote::create([
             'title' => $request->title,
             'slug' => $slug,
             'subject' => $request->subject,
             'user_id' => Auth::user()->id
         ]);   
+
+        
+        $quote->tags()->attach($request->tags);
 
         return redirect('quotes')->with('msg', 'Quote berhasil dibuat');
 

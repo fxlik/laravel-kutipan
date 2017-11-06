@@ -24,6 +24,13 @@
             <div class="col-md-4">
                 <div class="thumbnail">
                     <div class="caption">{{$quote->title}}</div>
+
+                    <p>Tag:
+                        @foreach($quote->tags as $tag)
+                            <span> {{ $tag->name }} </span>
+                        @endforeach
+                    </p>
+                    
                     <p><a href="/quotes/{{$quote->slug}}" class="btn btn-primary">Lihat Kutipan</a></p>
                     <div class="caption">Created by: <a href="/profile/{{$quote->user->id}}">{{$quote->user->name}}</a> | {{$quote->created_at}}</div>
                 </div>

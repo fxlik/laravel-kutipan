@@ -13,6 +13,10 @@
         </div>
     @endif
 
+    @if (session('tag_error')) 
+        <div class="alert alert-danger"> {{ session('tag_error') }} </div>
+    @endif
+
     <form method="POST" action="/quotes">
         <div class="form-group">
             <label for="title">Judul</label>
@@ -22,6 +26,32 @@
             <label for="subject">Isi Kutipan</label>
             <textarea name="subject" rows="8" cols="80" class="form-control">{{old('subject')}}</textarea>
         </div>
+
+        <div id="tag_wrapper">
+            <label for="">Tag (maximal 3)</label>
+            <div id="add_tag">Add tag</div>
+            <select name="tags[]" id="tag_select">
+                <option value="0">Tidak ada</option>
+                @foreach($tags as $tag)
+                    <option value="{{$tag->id}}">{{$tag->name}}</option>
+                @endforeach
+            </select>
+
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+            <script>
+
+                var counter = 0;
+                $(document).ready(function(){
+                    $('#add_tag').click(function(){
+                        
+                        counter++;
+                        if(counter < 3)
+                            $("#tag_select").clone().appendTo("#tag_wrapper");
+                    })
+                });
+            </script>
+        </div>
+        <br>
 
         {{ csrf_field() }}
 
