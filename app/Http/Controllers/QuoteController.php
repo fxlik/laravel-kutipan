@@ -101,8 +101,9 @@ class QuoteController extends Controller
     public function edit($id)
     {
         $quote = Quote::findOrFail($id);
+        $tags = Tag::all();
         
-        return view('quotes.edit', compact('quote'));
+        return view('quotes.edit', compact('quote', 'tags'));
     }
 
     /**
@@ -114,14 +115,25 @@ class QuoteController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request, [
+            'title' => 'required|min:3',
+            'subject' => 'required|min:5',
+        ]);
+
+        $request->tags = array_diff($request->tags, [0]); //menghapus array 0, untuk validasi
+        if (empty($request->tags))
+            return redirect('quotes/create')->withInput($request->input())->with('tag_error', 'tag ngak boleh kosong');
+
         $quote = Quote::findOrFail($id);
-        if($quote->isOwner())
+        if($quote->isOwner()) {
             $quote->update([
                 'title' => $request->title,
                 'subject' => $request->subject,
             ]);
-        else abort(403);
 
+            $quote->tags()->sync($request->tags);
+        }
+        else abort(403);
         return redirect('quotes')->with('msg', 'Quote berhasil di-update');
     }
 
