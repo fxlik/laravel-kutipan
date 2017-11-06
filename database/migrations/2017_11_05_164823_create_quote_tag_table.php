@@ -15,6 +15,11 @@ class CreateQuoteTagTable extends Migration
     {
         Schema::create('quote_tag', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('quote_id')->unsigned();
+            $table->integer('tag_id')->unsigned();
+            
+            $table->foreign('quote_id')->references('id')->on('quotes');
+            $table->foreign('tag_id')->references('id')->on('tags');
             $table->timestamps();
         });
     }
