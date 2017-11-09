@@ -26,6 +26,7 @@ Route::get('/', function () {
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/profile/{id?}', 'HomeController@profile');
+Route::get('/quotes/filter/{tag}', 'QuoteController@filter');
 Route::get('quotes/random', 'QuoteController@random');
 
 Route::resource('quotes', 'QuoteController', ['only' => ['index', 'show']]);

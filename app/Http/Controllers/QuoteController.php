@@ -17,10 +17,25 @@ class QuoteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $quotes = Quote::with('tags')->get();
-        return view('quotes.index', compact('quotes'));
+        $tags = Tag::all();
+        $search_q = urldecode($request->input('search'));
+
+        if(!empty($search_q))
+            $quotes = Quote::with('tags')->where('title', 'like', '%'.$search_q.'%')->get();
+        else
+            $quotes = Quote::with('tags')->get();
+        return view('quotes.index', compact('quotes', 'tags'));
+    }
+
+    public function filter($tag)
+    {
+        $tags = Tag::all();
+        $quotes = Quote::with('tags')->whereHas('tags', function($query) use($tag){
+            $query->where('name', $tag);
+        })->get();
+        return view('quotes.index', compact('quotes', 'tags'));
     }
 
     /**

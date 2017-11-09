@@ -36,7 +36,7 @@
                             @if ($oldtags->id == $tag->id)
                                 selected="selected"
                             @endif
-                            > {{$tag->name}} </option>
+                            > {{$tag->name}} w</option>
                     @endforeach
                 </select>
             @endforeach
