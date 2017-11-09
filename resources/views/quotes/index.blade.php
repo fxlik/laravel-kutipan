@@ -18,13 +18,15 @@
                 </div>
                 <button type="submit" class="btn btn-default ">Submit</button>
             </form>
-
+            <br>
              Filter tag: 
             @foreach($tags as $tag)
                 <a href="/quotes/filter/{{$tag->name}}"> /{{ $tag->name }} </a>
             @endforeach
+        
+        <div class="col-md-12"><br></div>
 
-        <div class="col-md-5 col-md-offset-4">
+        <div class="col-md-7 col-md-offset-5">
             <a href="/quotes" class="btn btn-primary">All</a>
             <a href="/quotes/random" class="btn btn-primary">Random</a>
             <a href="/quotes/create" class="btn btn-primary">Create</a>
