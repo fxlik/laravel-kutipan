@@ -27,6 +27,11 @@ class Quote extends Model
         return $this->belongsToMany('App\Models\Tag');
     }
 
+    public function likes()
+    {
+        return $this->morphMany('App\Models\Like', 'likeable');
+    }
+
     public function isOwner() {
     	if(Auth::guest())
     		return false;

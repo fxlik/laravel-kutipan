@@ -21,7 +21,7 @@
             <br>
              Filter tag: 
             @foreach($tags as $tag)
-                <a href="/quotes/filter/{{$tag->name}}"> /{{ $tag->name }} </a>
+                <a href="/quotes/filter/{{$tag->name}}"> #{{ $tag->name }} </a>
             @endforeach
         
         <div class="col-md-12"><br></div>
@@ -44,7 +44,7 @@
 
                     <span>Tag:
                         @foreach($quote->tags as $tag)
-                            <span> {{ $tag->name }} </span>
+                            <span> <a href="/quotes/filter/{{$tag->name}}">#{{ $tag->name }}</a> </span>
                         @endforeach
                     </span>
                     
