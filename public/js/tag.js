@@ -1,4 +1,5 @@
 var counter = 0;
+
 $(document).ready(function(){
     $('#add_tag').click(function(){
                         

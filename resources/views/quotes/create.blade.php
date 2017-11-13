@@ -18,6 +18,7 @@
     @endif
 
     <form method="POST" action="/quotes">
+        <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <div class="form-group">
             <label for="title">Judul</label>
             <input type="text" name="title" class="form-control" value="{{old('title')}}" placeholder="Judul Quote">
